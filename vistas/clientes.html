@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba técnica</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap5.min.js"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand ml-5" href="./index.html">Ejemplo Node.js</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="./index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./transacciones.html">Transacciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./clientes.html">Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./acercaDe.html">Acerca de</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container card mx-auto">
+        <div class="car-header text-center ">
+            <h3>Prueba Técnica: Registrar Clientes</h3>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <table id="tablaClientes" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>DNI</th>
+                            <th>NOMBRE</th>
+                            <th>APELLIDOS</th>
+                            <th>FECHA NAC.</th>
+                            <th>CELULAR</th>
+                            <th>CORREO</th>
+                            <th>BANCO</th>
+                            <th>NUM CCI</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <h3 style="display: flex;justify-content: center;">Agregar Cliente</h3>
+            <div class="col">
+
+                <form id="formularioCliente">
+                    <div class="mb-3">
+                        <label for="dni">DNI</label>
+                        <input type="text" class="form-control" id="dni" name="dni" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nombres">Nombres</label>
+                        <input type="text" class="form-control" id="nombres" name="nombres" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="celular">Celular</label>
+                        <input type="text" class="form-control" id="celular" name="celular" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="correo">Correo</label>
+                        <input type="email" class="form-control" id="correo" name="correo" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="banco">Banco</label>
+                        <input type="text" class="form-control" id="banco" name="banco" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="numero_cci">Número de CCI</label>
+                        <input type="text" class="form-control" id="numero_cci" name="numero_cci" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="btnAgregarCliente">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="EditarModal" tabindex="-1" role="dialog" aria-labelledby="detallesModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detallesModalLabel">Editar Cliente</h5>
+                </div>
+                <div class="modal-body" id="EditarClienteModal">
+
+                    <!--<input type="hidden" id="dni" name="dni"> -->
+
+                    <div class="mb-3">
+                        <label for="editDni">DNI</label>
+                        <input type="text" class="form-control" id="editDni" name="editDni" readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editNombres">Nombres</label>
+                        <input type="text" class="form-control" id="editNombres" name="editNombres" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editApellidos">Apellidos</label>
+                        <input type="text" class="form-control" id="editApellidos" name="editApellidos" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editFechaNacimiento">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="editFechaNacimiento" name="editFechaNacimiento"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCelular">Celular</label>
+                        <input type="text" class="form-control" id="editCelular" name="editCelular" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCorreo">Correo</label>
+                        <input type="email" class="form-control" id="editCorreo" name="editCorreo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editBanco">Banco</label>
+                        <input type="text" class="form-control" id="editBanco" name="editBanco" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editNcci">Número de CCI</label>
+                        <input type="text" class="form-control" id="editNcci" name="editNcci" required>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="enviarEdicion()">Guardar Cambios</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            var url = 'http://localhost:3000/api/clientes';
+
+            $('#tablaClientes').DataTable({
+                "ajax": {
+                    "url": url,
+                    "dataSrc": ""
+                },
+                "columns": [
+                    { "data": "dni" },
+                    { "data": "nombres" },
+                    { "data": "apellidos" },
+                    { "data": "fecha_nacimiento" },
+                    { "data": "celular" },
+                    { "data": "correo" },
+                    { "data": "banco" },
+                    { "data": "numero_cci" },
+                ],
+                "columnDefs": [
+                    {
+                        "targets": 8,
+                        "render": function (data, type, row) {
+                            return '<button onclick="EditarCliente(' + row.dni + ')">Editar</button>' +
+                                '<button style="margin-left: 5px;" onclick="BorrarCliente(' + row.dni + ')">Borrar</button>';
+                        },
+                    }
+                ]
+            });
+        });
+
+        function EditarCliente(dni) {
+            $.ajax({
+                url: 'http://localhost:3000/api/clientes/' + dni,
+                method: 'GET',
+                success: function (data) {
+                    $("#editDni").val(data[0].dni);
+                    $("#editNombres").val(data[0].nombres);
+                    $("#editApellidos").val(data[0].apellidos);
+                    $("#editFechaNacimiento").val(data[0].fecha_nacimiento);
+                    $("#editCelular").val(data[0].celular);
+                    $("#editCorreo").val(data[0].correo);
+                    $("#editBanco").val(data[0].banco);
+                    $("#editNcci").val(data[0].numero_cci);
+                    $("#EditarModal").modal("show");
+
+                },
+                error: function (error) {
+                    console.error('Error al obtener detalles del cliente:', error);
+                }
+            });
+        }
+
+        function enviarEdicion() {
+            var formData = {
+                dni: $("#editDni").val(),
+                editNombres: $("#editNombres").val(),
+                editApellidos: $("#editApellidos").val(),
+                editFechaNacimiento: $("#editFechaNacimiento").val(),
+                editCelular: $("#editCelular").val(),
+                editCorreo: $("#editCorreo").val(),
+                editBanco: $("#editBanco").val(),
+                editNcci: $("#editNcci").val(),
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/clientes/editar',
+                data: formData,
+                success: function (response) {
+                    console.log(response);
+                    alert('Los datos se actualizaron correctamente.');
+                    $('#EditarModal').modal('hide');
+                    $('#tablaClientes').DataTable().ajax.reload();
+                },
+                error: function (error) {
+                    console.error('Error al editar cliente:', error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#btnAgregarCliente").click(function () {
+                enviarFormulario();
+            });
+        });
+
+        function enviarFormulario() {
+            var formData = {
+                dni: $("#dni").val(),
+                nombres: $("#nombres").val(),
+                apellidos: $("#apellidos").val(),
+                fecha_nacimiento: $("#fecha_nacimiento").val(),
+                celular: $("#celular").val(),
+                correo: $("#correo").val(),
+                banco: $("#banco").val(),
+                numero_cci: $("#numero_cci").val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/clientes',
+                data: formData,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.error('Error al agregar cliente:', error);
+                }
+            });
+        }
+
+        function BorrarCliente(dni) {
+    if (confirm('¿Estás seguro de que deseas borrar este cliente?')) {
+        $.ajax({
+            url: 'http://localhost:3000/api/clientes/' + dni,
+            method: 'DELETE',
+            success: function (data) {
+                alert('Cliente borrado correctamente.');
+
+                $('#tablaClientes').DataTable().ajax.reload();
+            },
+            error: function (error) {
+                console.error('Error al borrar cliente:', error);
+            }
+        });
+    }
+}
+
+    </script>
+</body>
+
+</html>

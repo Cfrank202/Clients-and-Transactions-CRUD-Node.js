@@ -1,0 +1,22 @@
+
+.container-fluid{
+    /*display: flex;*/
+    justify-content: space-between;
+    margin-right: -15px;
+}
+
+
+.card {
+    margin-bottom: 20px;
+}
+
+#formularioCliente {
+    margin-top:10px;
+    margin-bottom:20px;
+}
+
+/*.col{
+    display: flex;
+    justify-content: center;
+}*/
+

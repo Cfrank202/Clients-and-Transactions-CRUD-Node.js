@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transacciones</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript"
+        src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap5.min.js"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand ml-5" href="./index.html">Ejemplo Node.js</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="./index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./transacciones.html">Transacciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./clientes.html">Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./acercaDe.html">Acerca de</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container card mx-auto">
+        <div class="car-header text-center ">
+            <h3>Prueba Técnica: Operaciones</h3>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <table id="tablaTransacciones" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>DNI CLIENTE</th>
+                            <th>ID_OPERACION</th>
+                            <th>FECHA</th>
+                            <th>MONTO PAGADO</th>
+                            <th>MONTO DEPOSITADO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="detallesModal" tabindex="-1" role="dialog" aria-labelledby="detallesModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detallesModalLabel">Detalles de la Transacción</h5>
+                </div>
+                <div class="modal-body" id="detallesTransaccionModal">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+
+
+        function verDetalle(dni, id_operacion, fecha_de_operacion, monto_pagado, monto_depositado) {
+            //alert('registro con ID ' + dni + ' ' + id_operacion + ' ' + fecha_de_operacion + ' ' + monto_pagado + ' ' + monto_depositado);
+            /*var detalles = "DNI CLIENTE: " + dni + "<br>ID_OPERACION: " + id_operacion + "<br>Fecha: " + fecha_de_operacion + "<br>Monto Pagado: " + monto_pagado + "<br>Monto Depositado: " + monto_depositado;
+            $("#detallesTransaccionModal").html(detalles);
+
+            $("#detallesModal").modal("show");*/
+
+            $.ajax({
+                url: 'http://localhost:3000/api/clientes/' + dni,
+                method: 'GET',
+                success: function (data) {
+                    var detalles = "DNI CLIENTE: " + dni
+                        + "<br>Nombre: " + data[0].nombres + " " + data[0].apellidos
+                        + "<br>Correo: " + data[0].correo
+                        + "<br>Banco: " + data[0].banco
+                        + "<br>Numero CCI: " + data[0].numero_cci
+                        + "<br>ID_OPERACION: " + id_operacion
+                        + "<br>Fecha: " + fecha_de_operacion
+                        + "<br>Monto Pagado: " + monto_pagado
+                        + "<br>Monto Depositado: " + monto_depositado;
+
+                    $("#detallesTransaccionModal").html(detalles);
+
+                    $("#detallesModal").modal("show");
+                },
+                error: function (error) {
+                    console.error('Error al obtener detalles del cliente:', error);
+                }
+            });
+        }
+        $(document).ready(function () {
+
+            var url = 'http://localhost:3000/api/transacciones';
+
+            $('#tablaTransacciones').DataTable({
+                "ajax": {
+                    "url": url,
+                    "dataSrc": ""
+                },
+                "columns": [
+                    { "data": "dni_cliente" },
+                    { "data": "id_operacion" },
+                    { "data": "fecha_de_operacion" },
+                    { "data": "monto_pagado" },
+                    { "data": "monto_depositado" },
+
+                ],
+                "columnDefs": [
+                    {
+                        "targets": 5,
+                        "render": function (data, type, row) {
+                            return '<button onclick="verDetalle(' + row.dni_cliente + ',' + row.id_operacion + ',' + row.fecha_de_operacion + ',' + row.monto_pagado + ',' + row.monto_depositado + ')">Detalle</button>';
+                        },
+                    }
+                ]
+            });
+        });
+    </script>
+</body>
+
+</html>
